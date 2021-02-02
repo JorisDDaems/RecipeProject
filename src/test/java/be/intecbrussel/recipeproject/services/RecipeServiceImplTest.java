@@ -1,5 +1,7 @@
 package be.intecbrussel.recipeproject.services;
 
+import be.intecbrussel.recipeproject.converters.RecipeCommandToRecipe;
+import be.intecbrussel.recipeproject.converters.RecipeToRecipeCommand;
 import be.intecbrussel.recipeproject.domain.Recipe;
 import be.intecbrussel.recipeproject.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -7,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
-import java.util.Collections;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
@@ -22,11 +23,17 @@ class RecipeServiceImplTest {
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
     @BeforeEach
     void setUp() throws Exception{
         MockitoAnnotations.initMocks(this);
 
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
 
