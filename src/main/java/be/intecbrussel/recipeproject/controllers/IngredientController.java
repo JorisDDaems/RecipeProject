@@ -1,6 +1,8 @@
 package be.intecbrussel.recipeproject.controllers;
 
 import be.intecbrussel.recipeproject.commands.IngredientCommand;
+import be.intecbrussel.recipeproject.commands.RecipeCommand;
+import be.intecbrussel.recipeproject.commands.UnitOfMeasureCommand;
 import be.intecbrussel.recipeproject.services.IngredientService;
 import be.intecbrussel.recipeproject.services.RecipeService;
 import be.intecbrussel.recipeproject.services.UnitOfMeasureService;
@@ -41,6 +43,23 @@ public class IngredientController {
         model.addAttribute("ingredient",ingredientService.findByRecipeIdAndIngredientId(Long.valueOf(recipeId), Long.valueOf(id)));
 
         return "recipe/ingredient/show";
+    }
+
+    @GetMapping
+    @RequestMapping("recipe/{recipeId}/ingredient/new")
+    public String newRecipe(@PathVariable String recipeId, Model model){
+
+        RecipeCommand recipeCommand = recipeService.findCommandById(Long.valueOf(recipeId));
+
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(Long.valueOf(recipeId));
+        model.addAttribute("ingredient", ingredientCommand);
+
+        ingredientCommand.setUom(new UnitOfMeasureCommand());
+
+        model.addAttribute("uomList", unitOfMeasureService.listAllUoms());
+
+        return "recipe/ingredient/ingredientform";
     }
 
     @GetMapping
