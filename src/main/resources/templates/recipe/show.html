@@ -40,8 +40,10 @@
                             </div>
 
                             <div class="col-md-6">
-                                <img src="../../static/images/guacamole400x400WithX.jpg"
-                                     th:src="@{/images/The_Swedish_Chef.png}"
+
+                                <img src="../../static/images/The_Swedish_Chef.png"
+                                     th:src="@{'/recipe/' + ${recipe.id} + '/recipeimage'}"
+
                                      width="200" height="200">
                             </div>
                         </div>
@@ -51,6 +53,7 @@
                             </div>
                             <div class="col-md-3">
                                 <p th:text="${(recipe.prepTime) +  '  Min'}">30 min</p>
+
                             </div>
                             <div class="col-md-3">
                                 <h5>Difficulty:</h5>
