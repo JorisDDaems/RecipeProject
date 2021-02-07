@@ -2,6 +2,7 @@ package be.intecbrussel.recipeproject.controllers;
 
 import be.intecbrussel.recipeproject.commands.RecipeCommand;
 import be.intecbrussel.recipeproject.domain.Recipe;
+import be.intecbrussel.recipeproject.exceptions.NotFoundException;
 import be.intecbrussel.recipeproject.services.RecipeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -52,6 +53,22 @@ class RecipeControllerTest {
                 .andExpect(view().name("recipe/show"))
                 .andExpect(model().attributeExists("recipe"));
     }
+
+
+    @Test
+    public void testGetRecipeNotFound() throws Exception{
+
+        Recipe recipe = new Recipe();
+        recipe.setId(1L);
+
+        when(recipeService.findById(anyLong())).thenThrow(NotFoundException.class);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/recipe/1/show"))
+                .andExpect(status().isNotFound())
+                .andExpect(view().name("404error"));
+    }
+
+
 
 
     @Test

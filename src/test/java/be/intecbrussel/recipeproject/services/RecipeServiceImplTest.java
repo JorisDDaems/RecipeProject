@@ -3,6 +3,7 @@ package be.intecbrussel.recipeproject.services;
 import be.intecbrussel.recipeproject.converters.RecipeCommandToRecipe;
 import be.intecbrussel.recipeproject.converters.RecipeToRecipeCommand;
 import be.intecbrussel.recipeproject.domain.Recipe;
+import be.intecbrussel.recipeproject.exceptions.NotFoundException;
 import be.intecbrussel.recipeproject.repositories.RecipeRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -70,4 +71,22 @@ class RecipeServiceImplTest {
             verify(recipeRepository, never()).findAll();
 
     }
+
+    @Test
+    void getRecipeByIdTestNotFound()throws Exception {
+
+        Optional<Recipe> recipeOptional = Optional.empty();
+
+        when (recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
+
+        NotFoundException notFoundException = assertThrows(
+                NotFoundException.class, () -> recipeService.findById(1L),
+                "Expected exception to throw an error. But it didn't"
+        );
+
+        assertEquals(false, notFoundException.getMessage().contains("Recipe Not Found"));
+
+
+    }
+
 }
